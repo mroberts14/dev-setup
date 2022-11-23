@@ -1,0 +1,17 @@
+---
+- hosts: all
+  
+  # vars_files:
+  vars:
+    - user: mroberts
+    - docker_users: "{{ user }}" 
+   #pre_tasks:
+  roles:
+    - role: geerlingguy.docker
+      tags: ['docker']
+      become: true
+  tasks:
+    - import_tasks: tasks/zsh.yml
+      tags: ['zsh']
+    - import_tasks: tasks/terraform.yml
+      tags: ['terraform']
