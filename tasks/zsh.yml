@@ -36,3 +36,9 @@
 - name: Clone powerlevel10k
   command: git clone --depth=1 https://github.com/romkatv/powerlevel10k.git {{ lookup("env", "HOME") }}/.oh-my-zsh/custom/themes/powerlevel10k
   when: not powerlevel10k.stat.exists
+
+- name: change zsh theme to powerlevel10k
+  lineinfile:
+    path: /home/{{ user }}/.zshrc
+    regexp: '^ZSH_THEME='
+    line: ZSH_THEME=powerlevel10k/powerlevel10k
