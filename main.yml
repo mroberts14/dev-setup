@@ -45,8 +45,14 @@
   tasks:
     - import_tasks: tasks/zsh.yml
       tags: ['zsh']
+
     - import_tasks: tasks/terraform.yml
       tags: ['terraform']
+
     - import_tasks: tasks/nvim.yml
       tags: ['neovim']
+      become: true
+
+    - import_tasks: tasks/jenkins-local.yml
+      tags: ['jenkins:local']
       become: true

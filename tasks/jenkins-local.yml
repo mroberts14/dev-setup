@@ -1,0 +1,8 @@
+---
+- name: jenkins-local | install necessary packages
+  apt:
+    name: "{{ item }}"
+  loop:
+    - just
+   #- watchexec # watchexec is not a thing in ubuntu (apt)
+
