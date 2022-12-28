@@ -10,3 +10,8 @@
 - name: install neovim
   apt:
     name: neovim
+
+# Need ripgrep to use fzf with neovim
+- name: install dependencies for neovim config
+  apt:
+    name: ripgrep
