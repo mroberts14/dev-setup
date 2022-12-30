@@ -13,8 +13,25 @@
 
 # Need ripgrep to use fzf with neovim
 # Need build-essential to install C dependencies for LSP
-- name: install dependencies for neovim config
+- name: install package dependencies for neovim config
   apt:
     name: 
       - ripgrep
       - build-essential
+
+- name: Install nvm
+  shell: >
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+  args:
+    creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
+  become: true
+  become_method: sudo
+  become_user: "{{ user }}"
+
+- name: install latest node version
+  shell: "source /home/{{ user }}/.zshrc && nvm install node"
+  args:
+    executable: /usr/bin/zsh
+  become: true
+  become_method: sudo
+  become_user: "{{ user }}"
