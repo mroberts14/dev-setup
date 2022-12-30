@@ -12,6 +12,9 @@
     name: neovim
 
 # Need ripgrep to use fzf with neovim
+# Need build-essential to install C dependencies for LSP
 - name: install dependencies for neovim config
   apt:
-    name: ripgrep
+    name: 
+      - ripgrep
+      - build-essential
