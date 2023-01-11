@@ -1,48 +1,15 @@
 ---
 - hosts: all
-  
   vars_files:
     - default.config.yml
   vars:
     - user: mroberts
-    - docker_users: "{{ user }}" 
+    - docker_users: "{{ user }}"
    #pre_tasks:
   roles:
     - role: geerlingguy.docker
       tags: ['docker']
       become: true
-      # doesn't work because of include_vars and facts
-      # - role: pandemonium1986.ohmyzsh
-      #host: all
-      #become: true
-      #become_method: sudo
-      #become_user: root
-      ## Vars
-      #ohymyzsh_users:
-      #  - user_name: "{{ user }}"
-      #    user_group: "{{ user }}"
-      #    user_home: "/home/{{ user }}"
-      #ohmyzsh_config:
-      #   - { regexp: '^ZSH_THEME="robbyrussell"$', line: 'ZSH_THEME="powerlevel10k/powerlevel10k"'}
-      #   - { regexp: '^# ENABLE_CORRECTION="true"$', line: 'ENABLE_CORRECTION="true"'}
-      #   - { regexp: '^plugins=\(.*\)', line: 'plugins=({{ ohmyzsh_plugins }})'} 
-      #ohmyzsh_plugins: >-
-      #  ansible
-      #  colored-man-pages
-      #  composer
-      #  debian
-      #  docker
-      #  docker-compose
-      #  extract
-      #  git
-      #  history
-      #  kubectl
-      #  minikube
-      #  ssh-agent
-      #  vagrant
-      #  zsh-autosuggestions
-      #  zsh-syntax-highlighting
-      #tags: ['ohmyzsh-galaxy']
   tasks:
     - import_tasks: tasks/zsh.yml
       tags: ['zsh']
