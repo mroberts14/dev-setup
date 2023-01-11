@@ -8,20 +8,20 @@ rbenv:
     - version: 3.1.2
 
 rbenv_apt_packages:
-- build-essential
-- curl
-- git
-- libcurl4-openssl-dev
-- libffi-dev
-- libreadline-dev
-- libssl-dev
-- libxml2-dev
-- libxslt1-dev
-- zlib1g-dev
+  - build-essential
+  - curl
+  - git
+  - libcurl4-openssl-dev
+  - libffi-dev
+  - libreadline-dev
+  - libssl-dev
+  - libxml2-dev
+  - libxslt1-dev
+  - zlib1g-dev
 
 rbenv_repo: "https://github.com/rbenv/rbenv.git"
 
 rbenv_plugins:
-  - { name: "ruby-build", repo: "https://github.com/rbenv/ruby-build.git", version: "master" }
+  - {name: "ruby-build", repo: "https://github.com/rbenv/ruby-build.git", version: "master"}
 
 rbenv_root: "~/.rbenv"
