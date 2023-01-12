@@ -26,4 +26,3 @@
   lineinfile:
     path: "/home/{{ user }}/.zshrc"
     line: export PATH=$PATH:$HOME/.bin
-   
