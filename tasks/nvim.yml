@@ -19,7 +19,12 @@
       - ripgrep
       - build-essential
 
-- name: Install nvm
+- name: check if nvm is installed
+  stat:
+    path: "{{ ansible_env.HOME }}/.nvm"
+  register: nvm_path
+
+- name: install nvm  # noqa: command-instead-of-module
   shell: |
     set -o pipefail
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
@@ -28,6 +33,7 @@
   become: true
   become_method: sudo
   become_user: "{{ user }}"
+  when: nvm_path.stat.exists is false
 
 - name: install latest node version
   shell: "source /home/{{ user }}/.zshrc && nvm install node"
