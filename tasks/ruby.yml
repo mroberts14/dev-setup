@@ -7,10 +7,10 @@
     rbenv_tmpdir: "{{ ansible_env.TMPDIR | default('/tmp') }}"
   when: rbenv_tmpdir is undefined
 
-#TODO: make this a handler or repeatable?
+# TODO: make this a handler or repeatable?
 - name: update apt cache
   apt:
-    update_cache: yes
+    update_cache: true
   become: true
 
 - name: install required packages and libraries for ruby
@@ -23,8 +23,8 @@
   git:
     repo: "{{ rbenv_repo }}"
     dest: "{{ rbenv_root }}"
-    accept_hostkey: yes
-    force: yes
+    accept_hostkey: true
+    force: true
   become: true
   become_user: "{{ user }}"
 
