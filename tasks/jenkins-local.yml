@@ -1,7 +1,7 @@
 ---
 # For practicing with this kind of setup:
 # https://github.com/steven-terrana/jte-local-demo
-- name: Task: jenkins-local | install necessary packages
+- name: Task - jenkins-local | install necessary packages
   apt:
     name: "{{ item }}"
   loop:
