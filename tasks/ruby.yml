@@ -36,14 +36,14 @@
   become_user: "{{ user }}"
 
 # Currently installs only ruby-build
-#TODO: investigate other plugins if needed?
+# TODO: investigate other plugins if needed?
 - name: install plugins for user
   git:
     repo: "{{ item.repo }}"
     dest: "{{ rbenv_root }}/plugins/{{ item.name }}"
     version: "{{ item.version }}"
-    accept_hostkey: yes
-    force: yes
+    accept_hostkey: true
+    force: true
   loop: "{{ rbenv_plugins }}"
     # with_nested:
     # - "{{ rbenv_users }}"
