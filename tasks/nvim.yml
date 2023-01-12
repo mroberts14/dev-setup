@@ -35,6 +35,14 @@
   become_user: "{{ user }}"
   when: nvm_path.stat.exists is false
 
+- name: check if node is installed
+  shell: "node --version"
+  changed_when: false
+  failed_when: false
+  become: true
+  become_user: "{{ user }}"
+  register: node_version
+
 - name: install latest node version
   shell: "source /home/{{ user }}/.zshrc && nvm install node"
   args:
@@ -42,3 +50,4 @@
   become: true
   become_method: sudo
   become_user: "{{ user }}"
+  when: node_version.rc != 0
