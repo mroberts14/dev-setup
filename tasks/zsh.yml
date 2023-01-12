@@ -11,7 +11,7 @@
 - name: change user shell to zsh
   become: yes
   become_user: root
-  command: chsh -s /bin/zsh {{ user }} 
+  command: chsh -s /bin/zsh {{ user }}
 
 - name: Check for oh-my-zsh
   stat: path=/$HOME/.oh-my-zsh
