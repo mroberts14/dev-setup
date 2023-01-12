@@ -36,7 +36,7 @@
   when: nvm_path.stat.exists is false
 
 - name: Check if node is installed
-  shell: "node --version"
+  command: "node --version"
   changed_when: false
   failed_when: false
   become: true
