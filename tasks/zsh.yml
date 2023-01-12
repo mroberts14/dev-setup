@@ -1,5 +1,5 @@
 ---
-- name: install zsh and friends
+- name: Install zsh and friends
   become: True
   become_user: root
   package: name={{ item }}
@@ -8,7 +8,7 @@
     - powerline
     - zsh
 
-- name: change user shell to zsh
+- name: Change user shell to zsh
   become: yes
   become_user: root
   command: chsh -s /bin/zsh {{ user }}
@@ -17,7 +17,7 @@
   stat: path=/$HOME/.oh-my-zsh
   register: ohmyzsh
 
-- name: install oh-my-zsh
+- name: Install oh-my-zsh
   shell: bash -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
   when: not ohmyzsh.stat.exists
 
@@ -37,7 +37,7 @@
   command: git clone --depth=1 https://github.com/romkatv/powerlevel10k.git {{ lookup("env", "HOME") }}/.oh-my-zsh/custom/themes/powerlevel10k
   when: not powerlevel10k.stat.exists
 
-- name: change zsh theme to powerlevel10k
+- name: Change zsh theme to powerlevel10k
   lineinfile:
     path: /home/{{ user }}/.zshrc
     regexp: '^ZSH_THEME='

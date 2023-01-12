@@ -2,24 +2,24 @@
 # A lot of this is taken from this role https://github.com/zzet/rbenv
 # Maybe just call the role instead?
 
-- name: set tmp directory path
+- name: Set tmp directory path
   set_fact:
     rbenv_tmpdir: "{{ ansible_env.TMPDIR | default('/tmp') }}"
   when: rbenv_tmpdir is undefined
 
 # TODO: make this a handler or repeatable?
-- name: update apt cache
+- name: Update apt cache
   apt:
     update_cache: true
   become: true
 
-- name: install required packages and libraries for ruby
+- name: Install required packages and libraries for ruby
   apt:
     pkg: "{{ rbenv_apt_packages }}"
     state: present
   become: true
 
-- name: checkout rbenv_repo for user
+- name: Checkout rbenv_repo for user
   git:
     repo: "{{ rbenv_repo }}"
     dest: "{{ rbenv_root }}"
@@ -28,7 +28,7 @@
   become: true
   become_user: "{{ user }}"
 
-- name: create plugins directory for selected users
+- name: Create plugins directory for selected users
   file:
     state: directory
     path: "{{ rbenv_root }}/plugins"
@@ -37,7 +37,7 @@
 
 # Currently installs only ruby-build
 # TODO: investigate other plugins if needed?
-- name: install plugins for user
+- name: Install plugins for user
   git:
     repo: "{{ item.repo }}"
     dest: "{{ rbenv_root }}/plugins/{{ item.name }}"
@@ -51,8 +51,7 @@
   become: true
   become_user: "{{ user }}"
 
-
-- name: add rbenv initialization to profile system-wide
+- name: Add rbenv initialization to profile system-wide
   template:
     src: rbenv_user.sh.j2
     dest: /etc/profile.d/rbenv.sh
@@ -60,13 +59,13 @@
     group: root
   become: true
 
-- name: add rbenv initilization to profile system-wide
+- name: Add rbenv initilization to profile system-wide
   blockinfile:
     block: "{{ lookup('template', 'rbenv_user.sh.j2') }}"
     dest: /etc/profile
   become: true
 
-- name: check ruby versions installed for user
+- name: Check ruby versions installed for user
   shell: $0 -lc "{{ rbenv_root }}/bin/rbenv versions --bare"
   become: true
   register: rbenv_versions
@@ -76,7 +75,7 @@
   check_mode: no
 
 
-- name: install specified ruby versions for user
+- name: Install specified ruby versions for user
   shell: $0 -lc "{{ rbenv_root }}/bin/rbenv install --skip-existing {{ item[0].version }}"
   become: true
   args:
@@ -87,7 +86,7 @@
   environment:
     TMPDIR: "{{ rbenv_tmpdir  }}"
 
-- name: check if user ruby version is {{ rbenv.default_ruby }}
+- name: Check if user ruby version is {{ rbenv.default_ruby }}
   shell: $0 -lc "{{ rbenv_root }}/bin/rbenv version | cut -d ' ' -f 1 | grep -Fx '{{ rbenv.default_ruby }}'"
   become: true
   become_user: "{{ user }}"
@@ -97,7 +96,7 @@
   check_mode: no
 
 
-- name: set ruby {{ rbenv.default_ruby }} for user
+- name: Set ruby {{ rbenv.default_ruby }} for user
   shell: $0 -lc "{{ rbenv_root}}/bin/rbenv global {{ rbenv.default_ruby }} && {{ rbenv_root }}/bin/rbenv rehash"
   become: true
   become_user: "{{ user }}"

@@ -6,23 +6,23 @@
     dest: "/home/{{ user }}/.tfenv"
     depth: 1
 
-- name: add tfenv executable to path for WSL
+- name: Add tfenv executable to path for WSL
   lineinfile:
     path: "/home/{{ user }}/.zshrc"
     line: export PATH=$PATH:$HOME/.tfenv/bin
 
     #- name: install terraform version
 
-- name: install tgswitch for terragrunt versioning
+- name: Install tgswitch for terragrunt versioning
   get_url:
     url: https://raw.githubusercontent.com/warrensbox/tgswitch/release/install.sh
     dest: "/home/{{ user }}/"
     mode: '0755'
 
-- name: install tgswitch
+- name: Install tgswitch
   script: "/home/{{ user }}/install.sh -b $HOME/.bin"
 
-- name: export tgswitch to path
+- name: Export tgswitch to path
   lineinfile:
     path: "/home/{{ user }}/.zshrc"
     line: export PATH=$PATH:$HOME/.bin

@@ -1,30 +1,30 @@
 ---
-- name: add stable neovim repository
+- name: Add stable neovim repository
   apt_repository:
     repo: ppa:neovim-ppa/unstable
 
-- name: update apt-get
+- name: Update apt-get
   apt:
     update_cache: true
 
-- name: install neovim
+- name: Install neovim
   apt:
     name: neovim
 
 # Need ripgrep to use fzf with neovim
 # Need build-essential to install C dependencies for LSP
-- name: install package dependencies for neovim config
+- name: Install package dependencies for neovim config
   apt:
     name:
       - ripgrep
       - build-essential
 
-- name: check if nvm is installed
+- name: Check if nvm is installed
   stat:
     path: "{{ ansible_env.HOME }}/.nvm"
   register: nvm_path
 
-- name: install nvm  # noqa: command-instead-of-module
+- name: Install nvm  # noqa: command-instead-of-module
   shell: |
     set -o pipefail
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
@@ -35,7 +35,7 @@
   become_user: "{{ user }}"
   when: nvm_path.stat.exists is false
 
-- name: check if node is installed
+- name: Check if node is installed
   shell: "node --version"
   changed_when: false
   failed_when: false
@@ -43,7 +43,7 @@
   become_user: "{{ user }}"
   register: node_version
 
-- name: install latest node version
+- name: Install latest node version
   shell: "source /home/{{ user }}/.zshrc && nvm install node"
   args:
     executable: /usr/bin/zsh
