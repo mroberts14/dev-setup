@@ -5,7 +5,7 @@
   vars:
     - user: mroberts
     - docker_users: "{{ user }}"
-   #pre_tasks:
+  # pre_tasks:
   roles:
     - role: geerlingguy.docker
       tags: ['docker']
