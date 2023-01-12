@@ -1,5 +1,5 @@
 ---
-# For practicing with this kind of setup: 
+# For practicing with this kind of setup:
 # https://github.com/steven-terrana/jte-local-demo
 - name: jenkins-local | install necessary packages
   apt:
