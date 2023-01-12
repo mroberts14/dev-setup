@@ -15,7 +15,7 @@
 # Need build-essential to install C dependencies for LSP
 - name: install package dependencies for neovim config
   apt:
-    name: 
+    name:
       - ripgrep
       - build-essential
 
