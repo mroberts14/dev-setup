@@ -2,7 +2,7 @@
 # A lot of this is taken from this role https://github.com/zzet/rbenv
 # Maybe just call the role instead?
 
-- name: set tmp directory path 
+- name: set tmp directory path
   set_fact:
     rbenv_tmpdir: "{{ ansible_env.TMPDIR | default('/tmp') }}"
   when: rbenv_tmpdir is undefined
@@ -32,7 +32,7 @@
   file:
     state: directory
     path: "{{ rbenv_root }}/plugins"
-  become: true 
+  become: true
   become_user: "{{ user }}"
 
 # Currently installs only ruby-build
@@ -45,7 +45,7 @@
     accept_hostkey: yes
     force: yes
   loop: "{{ rbenv_plugins }}"
-    # with_nested: 
+    # with_nested:
     # - "{{ rbenv_users }}"
     # - "{{ rbenv_plugins }}"
   become: true
@@ -84,7 +84,7 @@
   become_user: "{{ user }}"
   loop:
     - "{{ rbenv.rubies }}"
-  environment: 
+  environment:
     TMPDIR: "{{ rbenv_tmpdir  }}"
 
 - name: check if user ruby version is {{ rbenv.default_ruby }}
