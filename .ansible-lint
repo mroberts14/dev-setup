@@ -2,3 +2,6 @@
 skip_list:
   - fqcn-builtins
   - experimental
+
+warn_list:
+  - yaml[line-length]
