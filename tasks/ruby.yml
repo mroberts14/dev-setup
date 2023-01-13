@@ -45,9 +45,6 @@
     accept_hostkey: true
     force: true
   loop: "{{ rbenv_plugins }}"
-    # with_nested:
-    # - "{{ rbenv_users }}"
-    # - "{{ rbenv_plugins }}"
   become: true
   become_user: "{{ user }}"
 
@@ -72,7 +69,7 @@
   become_user: "{{ user }}"
   changed_when: false
   failed_when: false
-  check_mode: no
+  check_mode: false
 
 
 - name: Install specified ruby versions for user
@@ -84,10 +81,11 @@
   loop:
     - "{{ rbenv.rubies }}"
   environment:
-    TMPDIR: "{{ rbenv_tmpdir  }}"
+    TMPDIR: "{{ rbenv_tmpdir }}"
 
 - name: Check if user ruby version is {{ rbenv.default_ruby }}
-  shell: $0 -lc "{{ rbenv_root }}/bin/rbenv version | cut -d ' ' -f 1 | grep -Fx '{{ rbenv.default_ruby }}'"
+  shell: |
+    set -o pipefail && $0 -lc "{{ rbenv_root }}/bin/rbenv version | cut -d ' ' -f 1 | grep -Fx '{{ rbenv.default_ruby }}'"
   become: true
   become_user: "{{ user }}"
   register: ruby_selected
@@ -96,7 +94,7 @@
   check_mode: no
 
 
-- name: Set ruby {{ rbenv.default_ruby }} for user
-  shell: $0 -lc "{{ rbenv_root}}/bin/rbenv global {{ rbenv.default_ruby }} && {{ rbenv_root }}/bin/rbenv rehash"
+- name: Set ruby for user to be {{ rbenv.default_ruby }}
+  shell: $0 -lc "{{ rbenv_root }}/bin/rbenv global {{ rbenv.default_ruby }} && {{ rbenv_root }}/bin/rbenv rehash"
   become: true
   become_user: "{{ user }}"
