@@ -5,13 +5,14 @@
     repo: https://github.com/tfutils/tfenv.git
     dest: "/home/{{ user }}/.tfenv"
     depth: 1
+    update: true
 
 - name: Add tfenv executable to path for WSL
   lineinfile:
     path: "/home/{{ user }}/.zshrc"
     line: export PATH=$PATH:$HOME/.tfenv/bin
 
-    #- name: install terraform version
+# - name: install terraform version
 
 - name: Install tgswitch for terragrunt versioning
   get_url:
