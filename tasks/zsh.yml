@@ -2,7 +2,7 @@
 - name: Install zsh and friends
   become: true
   become_user: root
-  package: 
+  package:
     name: "{{ item }}"
   loop:
     - git-core
@@ -15,7 +15,7 @@
   command: chsh -s /bin/zsh {{ user }}
 
 - name: Check for oh-my-zsh
-  stat: 
+  stat:
     path: /$HOME/.oh-my-zsh
   register: ohmyzsh
 
@@ -24,25 +24,25 @@
   when: not ohmyzsh.stat.exists
 
 - name: Check for dircolors
-  stat: 
+  stat:
     path: /$HOME/.dircolors
   register: dircolors
 
 - name: Install dircolors
   get_url:
-    url: https://raw.githubusercontent.com/seebi/dircolors-solarized/master/dircolors.ansi-dark 
+    url: https://raw.githubusercontent.com/seebi/dircolors-solarized/master/dircolors.ansi-dark
     dest: /$HOME/.dircolors
   when: not dircolors.stat.exists
 
 - name: Check for powerlevel10k
-  stat: 
+  stat:
     path: /$HOME/.oh-my-zsh/custom/themes/powerlevel10k
   register: powerlevel10k
 
 - name: Clone powerlevel10k
   git:
     repo: https://github.com/romkatv/powerlevel10k.git
-    dest: "{{ lookup("env", "HOME") }}/.oh-my-zsh/custom/themes/powerlevel10k"
+    dest: {{ lookup("env", "HOME") }}/.oh-my-zsh/custom/themes/powerlevel10k
     depth: 1
   when: not powerlevel10k.stat.exists
 
