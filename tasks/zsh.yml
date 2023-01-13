@@ -1,20 +1,22 @@
 ---
 - name: Install zsh and friends
-  become: True
+  become: true
   become_user: root
-  package: name={{ item }}
-  with_items:
+  package: 
+    name: "{{ item }}"
+  loop:
     - git-core
     - powerline
     - zsh
 
-- name: Change user shell to zsh
-  become: yes
+- name: Change user shell to zsh # no-qa no-changed-when
+  become: true
   become_user: root
   command: chsh -s /bin/zsh {{ user }}
 
 - name: Check for oh-my-zsh
-  stat: path=/$HOME/.oh-my-zsh
+  stat: 
+    path: /$HOME/.oh-my-zsh
   register: ohmyzsh
 
 - name: Install oh-my-zsh
@@ -22,19 +24,26 @@
   when: not ohmyzsh.stat.exists
 
 - name: Check for dircolors
-  stat: path=/$HOME/.dircolors
+  stat: 
+    path: /$HOME/.dircolors
   register: dircolors
 
 - name: Install dircolors
-  command: curl https://raw.githubusercontent.com/seebi/dircolors-solarized/master/dircolors.ansi-dark --output /$HOME/.dircolors
+  get_url:
+    url: https://raw.githubusercontent.com/seebi/dircolors-solarized/master/dircolors.ansi-dark 
+    dest: /$HOME/.dircolors
   when: not dircolors.stat.exists
 
 - name: Check for powerlevel10k
-  stat: path=/$HOME/.oh-my-zsh/custom/themes/powerlevel10k
+  stat: 
+    path: /$HOME/.oh-my-zsh/custom/themes/powerlevel10k
   register: powerlevel10k
 
 - name: Clone powerlevel10k
-  command: git clone --depth=1 https://github.com/romkatv/powerlevel10k.git {{ lookup("env", "HOME") }}/.oh-my-zsh/custom/themes/powerlevel10k
+  git:
+    repo: https://github.com/romkatv/powerlevel10k.git
+    dest: "{{ lookup("env", "HOME") }}/.oh-my-zsh/custom/themes/powerlevel10k"
+    depth: 1
   when: not powerlevel10k.stat.exists
 
 - name: Change zsh theme to powerlevel10k
