@@ -11,6 +11,7 @@
 - name: Update apt cache
   apt:
     update_cache: true
+    cache_valid_time: 86400
   become: true
 
 - name: Install required packages and libraries for ruby
@@ -25,6 +26,7 @@
     dest: "{{ rbenv_root }}"
     accept_hostkey: true
     force: true
+    update: true
   become: true
   become_user: "{{ user }}"
 
@@ -91,10 +93,16 @@
   register: ruby_selected
   changed_when: false
   failed_when: false
-  check_mode: no
+  check_mode: false
 
+- name: check rbenv global for version
+  shell: "{{ rbenv_root }}/bin/rbenv global"
+  register: rbenv_global
+  become: true
+  become_user: "{{ user }}"
 
 - name: Set ruby for user to be {{ rbenv.default_ruby }}
   shell: $0 -lc "{{ rbenv_root }}/bin/rbenv global {{ rbenv.default_ruby }} && {{ rbenv_root }}/bin/rbenv rehash"
   become: true
   become_user: "{{ user }}"
+  when: rbenv_global.stdout != rbenv.default_ruby
