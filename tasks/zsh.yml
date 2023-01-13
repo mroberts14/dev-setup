@@ -9,7 +9,7 @@
     - powerline
     - zsh
 
-- name: Change user shell to zsh # no-qa no-changed-when
+- name: Change user shell to zsh  # noqa no-changed-when
   become: true
   become_user: root
   command: chsh -s /bin/zsh {{ user }}
@@ -39,7 +39,7 @@
     path: /$HOME/.oh-my-zsh/custom/themes/powerlevel10k
   register: powerlevel10k
 
-- name: Clone powerlevel10k
+- name: Clone powerlevel10k  # noqa latest[git]
   git:
     repo: https://github.com/romkatv/powerlevel10k.git
     dest: /$HOME/.oh-my-zsh/custom/themes/powerlevel10k

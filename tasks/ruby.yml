@@ -20,7 +20,7 @@
     state: present
   become: true
 
-- name: Checkout rbenv_repo for user
+- name: Checkout rbenv_repo for user  # noqa latest[git]
   git:
     repo: "{{ rbenv_repo }}"
     dest: "{{ rbenv_root }}"
@@ -95,8 +95,8 @@
   failed_when: false
   check_mode: false
 
-- name: check rbenv global for version
-  shell: "{{ rbenv_root }}/bin/rbenv global"
+- name: Check rbenv global for version  # noqa no-changed-when
+  command: "{{ rbenv_root }}/bin/rbenv global"
   register: rbenv_global
   become: true
   become_user: "{{ user }}"

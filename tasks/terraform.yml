@@ -1,6 +1,6 @@
 # Steps from here: https://github.com/tfutils/tfenv#manual
 ---
-- name: Clone tfenv repo to ~/.tfenv
+- name: Clone tfenv repo to ~/.tfenv  # noqa latest[git]
   git:
     repo: https://github.com/tfutils/tfenv.git
     dest: "/home/{{ user }}/.tfenv"
