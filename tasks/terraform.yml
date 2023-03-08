@@ -1,5 +1,10 @@
 # Steps from here: https://github.com/tfutils/tfenv#manual
 ---
+- name: Install package dependencies for tfenv usage
+  apt:
+    name: unzip
+    state: present
+
 - name: Clone tfenv repo to ~/.tfenv  # noqa latest[git]
   git:
     repo: https://github.com/tfutils/tfenv.git
@@ -12,7 +17,12 @@
     path: "/home/{{ user }}/.zshrc"
     line: export PATH=$PATH:$HOME/.tfenv/bin
 
-# - name: install terraform version
+- name: Opt in to using GnuPG tools for PGP signature verification with tfenv
+  copy:
+    content: 'trust-tfenv: yes'
+    dest: "/home/{{ user }}/.tfenv/use-gpgv"
+
+# TO DO: - name: install terraform version
 
 - name: Install tgswitch for terragrunt versioning
   get_url:
