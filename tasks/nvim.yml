@@ -11,13 +11,21 @@
   apt:
     name: neovim
 
-# Need ripgrep to use fzf with neovim
+# Need ripgrep and fd-find to use fzf with neovim
 # Need build-essential to install C dependencies for LSP
 - name: Install package dependencies for neovim config
   apt:
     name:
       - ripgrep
       - build-essential
+      - fd-find
+
+# https://github.com/sharkdp/fd#on-ubuntu
+- name: Link fdfind to fd
+  shell: ln -s $(which fdfind) ~/.local/bin/fd
+  become: true
+  become_method: sudo
+  become_user: "{{ user }"
 
 - name: Check if nvm is installed
   stat:
