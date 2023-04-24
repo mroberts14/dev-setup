@@ -27,3 +27,6 @@
 
     - import_tasks: tasks/ruby.yml
       tags: ['ruby']
+
+    - import_tasks: tasks/tools.yml
+      tags: ['tools']

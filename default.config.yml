@@ -25,3 +25,9 @@ rbenv_plugins:
   - {name: "ruby-build", repo: "https://github.com/rbenv/ruby-build.git", version: "master"}
 
 rbenv_root: "~/.rbenv"
+
+# Tools
+dive:
+  path: /usr/local/bin/dive
+  package: dive_0.9.2_linux_amd_64.deb
+  version: 0.9.2

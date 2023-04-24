@@ -1,0 +1,30 @@
+---
+- name: Check for existing dive installation
+  stat:
+    path: "{{ dive.path }}"
+    register: dive_path_result
+
+- name: Check dive version
+  command: "{{ dive.path }} --version"
+  register: dive_version_check
+  when: dive_path_result.stat.exists
+  changed_when: false
+  failed_when: false
+
+- name: Output dive version
+  debug:
+    msg: "{{ dive_version_check.stdout }} is installed"
+
+# https://github.com/wagoodman/dive#installation
+- name: Download dive binary
+  ansible.builtin.get_url:
+    url: "https://github.com/wagoodman/dive/releases/download/v{{ dive.version }}/{{ dive.package }}"
+    dest: "/home/{{ user }}" 
+  when: not dive_path_result.stat.exists
+
+- name: Install dive binary
+  apt:
+    deb: "/home/{{ user }}/{{ dive.package }}"
+  become: true
+  become_user: root
+  when: not dive_path_result.stat.exists
