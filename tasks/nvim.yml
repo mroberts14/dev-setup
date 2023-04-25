@@ -30,7 +30,10 @@
   become_user: "{{ user }}"
 
 - name: Link fdfind to fd
-  shell: ln -s $(which fdfind) ~/.local/bin/fd
+  file:
+    src: /usr/bin/fdfind
+    dest: ~/.local/bin/fd
+    state: link
   become: true
   become_method: sudo
   become_user: "{{ user }"
@@ -64,6 +67,7 @@
   shell: "source /home/{{ user }}/.zshrc && nvm install node"
   args:
     executable: /usr/bin/zsh
+    creates: "/home/{{ user }}/.nvm/version/node/"
   become: true
   become_method: sudo
   become_user: "{{ user }}"

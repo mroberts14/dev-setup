@@ -9,10 +9,12 @@
     - powerline
     - zsh
 
-- name: Change user shell to zsh  # noqa no-changed-when
+- name: Change user shell to zsh
   become: true
   become_user: root
-  command: chsh -s /bin/zsh {{ user }}
+  user:
+    name: "{{ user }}"
+    shell: /bin/zsh
 
 - name: Check for oh-my-zsh
   stat:
@@ -21,6 +23,9 @@
 
 - name: Install oh-my-zsh
   shell: bash -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+  args:
+    creates: install.sh
+    chdir: "/home/{{ user }}"
   when: not ohmyzsh.stat.exists
 
 - name: Check for dircolors
@@ -32,6 +37,7 @@
   get_url:
     url: https://raw.githubusercontent.com/seebi/dircolors-solarized/master/dircolors.ansi-dark
     dest: /$HOME/.dircolors
+    mode: '0644'
   when: not dircolors.stat.exists
 
 - name: Check for powerlevel10k

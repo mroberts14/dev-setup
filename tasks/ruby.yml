@@ -34,6 +34,7 @@
   file:
     state: directory
     path: "{{ rbenv_root }}/plugins"
+    mode: '0755'
   become: true
   become_user: "{{ user }}"
 
@@ -56,6 +57,7 @@
     dest: /etc/profile.d/rbenv.sh
     owner: root
     group: root
+    mode: '0644'
   become: true
 
 - name: Add rbenv initilization to profile system-wide
@@ -98,11 +100,14 @@
 - name: Check rbenv global for version  # noqa no-changed-when
   command: "{{ rbenv_root }}/bin/rbenv global"
   register: rbenv_global
+  changed_when: false
   become: true
   become_user: "{{ user }}"
 
 - name: Set ruby for user to be {{ rbenv.default_ruby }}
   shell: $0 -lc "{{ rbenv_root }}/bin/rbenv global {{ rbenv.default_ruby }} && {{ rbenv_root }}/bin/rbenv rehash"
+  args:
+    creates: "/home/{{ user }}/.rbenv/version"
   become: true
   become_user: "{{ user }}"
   when: rbenv_global.stdout != rbenv.default_ruby

@@ -21,6 +21,7 @@
   copy:
     content: 'trust-tfenv: yes'
     dest: "/home/{{ user }}/.tfenv/use-gpgv"
+    mode: '0644'
 
 # TO DO: - name: install terraform version
 

@@ -19,7 +19,8 @@
 - name: Download dive binary
   ansible.builtin.get_url:
     url: "https://github.com/wagoodman/dive/releases/download/v{{ dive.version }}/{{ dive.package }}"
-    dest: "/home/{{ user }}"
+    dest: "/home/{{ user }}/{{ dive_package }}"
+    mode: '0755'
   when: not dive_path_result.stat.exists
 
 - name: Install dive binary
@@ -28,3 +29,10 @@
   become: true
   become_user: root
   when: not dive_path_result.stat.exists
+
+- name: Remove the dive binary
+  file:
+    path: "/home/{{ user }}/{{ dive_package }}"
+    state: absent
+
+# ToDo: Install ansible-lint, yamllint, grype, syft, tfsec, checkov

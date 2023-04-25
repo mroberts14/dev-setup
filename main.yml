@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: Install the setup of various tools
+  hosts: all
   vars_files:
     - default.config.yml
   vars:
@@ -11,11 +12,11 @@
       tags: ['docker']
       become: true
   tasks:
-    - name: Set up Zsh 
+    - name: Set up Zsh
       import_tasks: tasks/zsh.yml
       tags: ['zsh']
 
-    - name: Setup Terraform and Terragrunt 
+    - name: Setup Terraform and Terragrunt
       import_tasks: tasks/terraform.yml
       tags: ['terraform']
 
