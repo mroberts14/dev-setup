@@ -19,7 +19,7 @@
 - name: Download dive binary
   ansible.builtin.get_url:
     url: "https://github.com/wagoodman/dive/releases/download/v{{ dive.version }}/{{ dive.package }}"
-    dest: "/home/{{ user }}" 
+    dest: "/home/{{ user }}"
   when: not dive_path_result.stat.exists
 
 - name: Install dive binary
