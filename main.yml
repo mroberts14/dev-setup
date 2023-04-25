@@ -11,22 +11,28 @@
       tags: ['docker']
       become: true
   tasks:
-    - import_tasks: tasks/zsh.yml
+    - name: Set up Zsh 
+      import_tasks: tasks/zsh.yml
       tags: ['zsh']
 
-    - import_tasks: tasks/terraform.yml
+    - name: Setup Terraform and Terragrunt 
+      import_tasks: tasks/terraform.yml
       tags: ['terraform']
 
-    - import_tasks: tasks/nvim.yml
+    - name: Initial setup of Neovim
+      import_tasks: tasks/nvim.yml
       tags: ['neovim']
       become: true
 
-    - import_tasks: tasks/jenkins-local.yml
+    - name: Setup of Jenkins local testing
+      import_tasks: tasks/jenkins-local.yml
       tags: ['jenkins:local']
       become: true
 
-    - import_tasks: tasks/ruby.yml
+    - name: Setup of Ruby
+      import_tasks: tasks/ruby.yml
       tags: ['ruby']
 
-    - import_tasks: tasks/tools.yml
+    - name: Setup of additional tools
+      import_tasks: tasks/tools.yml
       tags: ['tools']

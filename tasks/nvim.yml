@@ -21,11 +21,20 @@
       - fd-find
 
 # https://github.com/sharkdp/fd#on-ubuntu
+- name: Check for existing fd symlink
+  stat:
+    path: ~/.local/bin/fd
+    register: fd_path_result
+  become: true
+  become_method: sudo
+  become_user: "{{ user }}"
+
 - name: Link fdfind to fd
   shell: ln -s $(which fdfind) ~/.local/bin/fd
   become: true
   become_method: sudo
   become_user: "{{ user }"
+  when: not fd_path_result.stat.exists
 
 - name: Check if nvm is installed
   stat:
